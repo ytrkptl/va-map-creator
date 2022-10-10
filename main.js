@@ -8,9 +8,6 @@ document.querySelector("#app").innerHTML = `
 `;
 
 const svg = document.getElementById("canvas");
-const fillColorPicker = document.getElementById("fill-color");
-const strokeColorPicker = document.getElementById("stroke-color");
-const fillStyleSelector = document.getElementById("fill-style");
 
 const rc = rough.svg(svg);
 const pathData =
@@ -102,9 +99,22 @@ const setStrokeWidth = (e) => {
   createRoughGraph({ ...options, strokeWidth: e.value });
 };
 
+let fillStyle = "solid";
+
 const changeFillStyle = (e) => {
   svg.innerHTML = "";
+  fillStyle = e.value;
   createRoughGraph({ ...options, fillStyle: e.value });
+};
+
+const changeHachureAngle = (e) => {
+  svg.innerHTML = "";
+  createRoughGraph({ ...options, hachureAngle: e.value });
+};
+
+const changeHachureGap = (e) => {
+  svg.innerHTML = "";
+  createRoughGraph({ ...options, fillStyle, hachureGap: e.value });
 };
 
 // use TweakPane for better UI
@@ -113,43 +123,64 @@ const pane = new Pane({
   expanded: true,
 });
 
+// add dropdown menu for selecting fill style
+
 const fillStyleSelect = pane.addBlade({
-  view: 'list',
-  label: 'Fill Style',
+  view: "list",
+  label: "Fill Style",
   options: [
-    {text: 'Solid', value: 'solid'},
-    {text: 'Hachure', value: 'hachure'},
-    {text: 'Cross-hatch', value: 'cross-hatch'},
-    {text: 'Sunburst', value: 'sunburst'},
-    {text: 'Dashed', value: 'dashed'},
-    {text: 'Zigzag', value: 'zigzag'},
-    {text: 'Dots', value: 'dots'},
-    {text: 'Zigzag Line', value: 'zigzag-line'},
+    { text: "Solid", value: "solid" },
+    { text: "Hachure", value: "hachure" },
+    { text: "Cross-hatch", value: "cross-hatch" },
+    { text: "Sunburst", value: "sunburst" },
+    { text: "Dashed", value: "dashed" },
+    { text: "Zigzag", value: "zigzag" },
+    { text: "Dots", value: "dots" },
+    { text: "Zigzag Line", value: "zigzag-line" },
   ],
-  value: 'solid',
+  value: "solid",
 });
+
+// add event listener
 fillStyleSelect.on("change", changeFillStyle);
 
-// add input for changing stroke
-const strokeColorInput = pane.addInput(options, "stroke", { label: "Stroke" });
-// add eventListener for strokeColor
+// add input for changing stroke, followed by event listener
+const strokeColorInput = pane.addInput(options, "stroke", { label: "Stroke"});
 strokeColorInput.on("change", setStrokeColor);
 
 // add input for changing fill
-const fillColorInput = pane.addInput(options, "fill", { label: "Fill" });
+const fillColorInput = pane.addInput(options, "fill", {label: "Fill"});
 fillColorInput.on("change", setFillColor);
 
-// add input for strokeWidth
+// add input & event listener for strokeWidth
 const strokeWidthInput = pane.addInput(options, "strokeWidth", {
   min: 0,
   max: 20,
   step: 0.1,
-  label: "Stroke Width",
+  label: "Stroke Width"
 });
 
 strokeWidthInput.on("change", setStrokeWidth);
 
-// add button for downloading SVG
+// add input and event listener for changing hachure angle
+const hachureAngleInput = pane.addInput(options, "hachureAngle", {
+  min: 0,
+  max: 360,
+  step: 1,
+  label: "Hachure Angle"
+});
+hachureAngleInput.on("change", changeHachureAngle);
+
+// add input and event listener for hachure gap
+const hachureGapInput = pane.addInput(options, "hachureGap", {
+  min: 0,
+  max: 80,
+  step: 1,
+  label: "Hachure Gap"
+});
+hachureGapInput.on("change", changeHachureGap);
+
+// add button & event listener for downloading SVG
 const btn2 = pane.addButton({
   title: "Download SVG",
 });
