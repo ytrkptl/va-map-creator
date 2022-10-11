@@ -104,16 +104,16 @@ const fillStyleSelect = pane.addBlade({
   view: "list",
   label: "Fill Style",
   options: [
-    { text: "Sunburst", value: "sunburst" },
     { text: "Solid", value: "solid" },
     { text: "Hachure", value: "hachure" },
     { text: "Cross-hatch", value: "cross-hatch" },
+    { text: "Sunburst", value: "sunburst" },
     { text: "Dashed", value: "dashed" },
     { text: "Zigzag", value: "zigzag" },
     { text: "Dots", value: "dots" },
     { text: "Zigzag Line", value: "zigzag-line" },
   ],
-  value: "solid",
+  value: "sunburst",
 });
 // add event listener
 fillStyleSelect.on("change", (e) => modifyGraph("fillStyle", e.value));
