@@ -3,7 +3,7 @@ import rough from "roughjs";
 import { Pane } from "tweakpane";
 
 document.querySelector("#app").innerHTML = `
-  <svg id="canvas" width="2000" height="1600" viewBox="2045 800 30 700"></svg>
+  <svg id="canvas" width="1000" height="600" viewBox="1800 830 200 300"></svg>
   <canvas id="canvas2"></canvas>
 `;
 
